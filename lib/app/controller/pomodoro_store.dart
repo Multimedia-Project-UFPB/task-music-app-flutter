@@ -31,26 +31,25 @@ abstract class _PomodoroStoreBase with Store {
   @action
   void start() {
     initiated = true;
-    stopwatch = Timer.periodic(const Duration(milliseconds: 50), (timer) {
-      if (minutes == 0 && seconds == 0) {
-        _rangeTypeChange();
-      } else if (seconds == 0) {
-        seconds = 59;
-        minutes--;
-      } else {
-        seconds--;
-      }
-    });
-  }
-
-  void pauseTimme() {
-    pause = true;
+    stopwatch = Timer.periodic(
+      const Duration(milliseconds: 50),
+      (timer) {
+        if (minutes == 0 && seconds == 0) {
+          _rangeTypeChange();
+        } else if (seconds == 0) {
+          seconds = 59;
+          minutes--;
+        } else {
+          seconds--;
+        }
+      },
+    );
   }
 
   @action
   void stop() {
     initiated = false;
-    pauseTimme();
+    pause = true;
     stopwatch?.cancel();
   }
 
