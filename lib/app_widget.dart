@@ -1,0 +1,42 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:task_music/app/controller/pomodoro_store.dart';
+
+// Screens
+import 'package:task_music/app/view/home_screen.dart';
+
+class AppWidget extends StatelessWidget {
+  const AppWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    ThemeData theme = ThemeData();
+    return MultiProvider(
+      providers: [
+        Provider<PomodoroStore>(
+          create: (_) => PomodoroStore(),
+        ),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Task Music',
+        theme: theme.copyWith(
+          colorScheme: theme.colorScheme.copyWith(
+            primary: const Color(0xffd1192f),
+          ),
+          textTheme: Theme.of(context).textTheme.apply(
+                fontFamily: 'Righteous',
+                bodyColor: const Color(0xffd1192f),
+              ),
+        ),
+        home: const HomeScreen(),
+        // initialRoute: SplashScreen.route,
+        // routes: {
+        //   SplashScreen.route: (_) => const SplashScreen(),
+        //   WelcomeScreen.route: (_) => const WelcomeScreen(),
+        //   HomeScreen.route: (_) => const HomeScreen(),
+        // },
+      ),
+    );
+  }
+}
