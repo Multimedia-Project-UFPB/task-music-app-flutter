@@ -1,0 +1,4 @@
+enum TipoIntervalo {
+  trabalho,
+  descanso,
+}
