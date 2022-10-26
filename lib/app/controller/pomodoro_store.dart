@@ -10,16 +10,18 @@ class PomodoroStore = _PomodoroStoreBase with _$PomodoroStore;
 abstract class _PomodoroStoreBase with Store {
   @observable
   bool initiated = false;
+  @observable
+  bool pause = false;
 
   @observable
-  int minutes = 2;
+  int minutes = 1;
   @observable
   int seconds = 0;
 
   @observable
-  int workTime = 5;
+  int workTime = 2;
   @observable
-  int restTime = 5;
+  int restTime = 2;
 
   @observable
   RangeType rangeType = RangeType.job;
@@ -29,7 +31,7 @@ abstract class _PomodoroStoreBase with Store {
   @action
   void start() {
     initiated = true;
-    stopwatch = Timer.periodic(const Duration(seconds: 1), (timer) {
+    stopwatch = Timer.periodic(const Duration(milliseconds: 50), (timer) {
       if (minutes == 0 && seconds == 0) {
         _rangeTypeChange();
       } else if (seconds == 0) {
@@ -41,17 +43,24 @@ abstract class _PomodoroStoreBase with Store {
     });
   }
 
+  void pauseTimme() {
+    pause = true;
+  }
+
   @action
   void stop() {
     initiated = false;
+    pauseTimme();
     stopwatch?.cancel();
   }
 
   @action
   void restart() {
-    stop();
+    initiated = false;
+    pause = false;
     minutes = rangeType == RangeType.job ? workTime : restTime;
     seconds = 0;
+    stopwatch?.cancel();
   }
 
   @action
@@ -92,7 +101,7 @@ abstract class _PomodoroStoreBase with Store {
   }
 
   void _rangeTypeChange() {
-    if (rangeType == RangeType.rest) {
+    if (rangeType == RangeType.job) {
       rangeType = RangeType.rest;
       minutes = restTime;
     } else {

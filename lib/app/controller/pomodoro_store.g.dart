@@ -25,6 +25,22 @@ mixin _$PomodoroStore on _PomodoroStoreBase, Store {
     });
   }
 
+  late final _$pauseAtom =
+      Atom(name: '_PomodoroStoreBase.pause', context: context);
+
+  @override
+  bool get pause {
+    _$pauseAtom.reportRead();
+    return super.pause;
+  }
+
+  @override
+  set pause(bool value) {
+    _$pauseAtom.reportWrite(value, super.pause, () {
+      super.pause = value;
+    });
+  }
+
   late final _$minutesAtom =
       Atom(name: '_PomodoroStoreBase.minutes', context: context);
 
@@ -189,6 +205,7 @@ mixin _$PomodoroStore on _PomodoroStoreBase, Store {
   String toString() {
     return '''
 initiated: ${initiated},
+pause: ${pause},
 minutes: ${minutes},
 seconds: ${seconds},
 workTime: ${workTime},
