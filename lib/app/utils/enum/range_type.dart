@@ -1,0 +1,4 @@
+enum RangeType {
+  job,
+  rest,
+}
