@@ -1,42 +1,61 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:provider/provider.dart';
+
+// Controller
+import 'package:task_music/app/controller/pomodoro_store.dart';
+
+// Widget
 import 'package:task_music/app/widgets/input_button.dart';
 
 class InputTime extends StatelessWidget {
   final int value;
   final void Function()? inc;
   final void Function()? dec;
-  final Text tittle;
+  final String title;
 
   const InputTime({
     Key? key,
     required this.value,
     this.inc,
     this.dec,
-    required this.tittle,
+    required this.title,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        tittle,
-        const SizedBox(height: 10),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            InputButton(
-              function: dec,
-              icon: Icons.arrow_downward_rounded,
+    final _store = Provider.of<PomodoroStore>(context);
+    return Observer(
+      builder: (_) => Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 20,
             ),
-            Text('$value min'),
-            InputButton(
-              function: inc,
-              icon: Icons.arrow_upward_rounded,
-            ),
-          ],
-        )
-      ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              InputButton(
+                function: dec,
+                icon: Icons.arrow_downward_rounded,
+              ),
+              Text(
+                '$value min',
+                style: const TextStyle(
+                  fontSize: 16,
+                ),
+              ),
+              InputButton(
+                function: inc,
+                icon: Icons.arrow_upward_rounded,
+              ),
+            ],
+          )
+        ],
+      ),
     );
   }
 }
