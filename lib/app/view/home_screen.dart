@@ -16,6 +16,9 @@ import 'package:task_music/app/widgets/custom_app_bar.dart';
 import 'package:task_music/app/widgets/input_time.dart';
 import 'package:task_music/app/widgets/stopwatch.dart';
 
+// View Model
+import 'package:task_music/app/view_models/task_view.dart';
+
 class HomeScreen extends StatelessWidget {
   static const String route = '/home-screen';
   const HomeScreen({Key? key}) : super(key: key);
@@ -72,21 +75,7 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
             ),
-            Container(
-              margin: EdgeInsets.only(top: sizeHeight / 1.8),
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.5),
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20),
-                ),
-              ),
-              child: Column(
-                children: [
-                  const Text('Tarefas'),
-                ],
-              ),
-            ),
+            TaskView(sizeHeight: sizeHeight, sizeWidth: sizeWidth),
           ],
         ),
       ),
