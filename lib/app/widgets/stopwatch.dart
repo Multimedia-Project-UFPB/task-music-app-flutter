@@ -7,6 +7,7 @@ import 'package:task_music/app/controller/pomodoro_store.dart';
 
 // Enum
 import 'package:task_music/app/utils/enum/range_type.dart';
+import 'package:task_music/app/widgets/custom_button.dart';
 
 // Widget
 import 'package:task_music/app/widgets/stopwatch_button.dart';
@@ -109,15 +110,13 @@ class _StopwatchState extends State<Stopwatch> {
                                 function: _store.stop,
                               ),
                             ),
-                            IconButton(
-                              onPressed: _store.restart,
-                              icon: Icon(
-                                Icons.close_rounded,
-                                color: _store.rangeType == RangeType.job
-                                    ? Theme.of(context).colorScheme.primary
-                                    : Colors.green.shade900,
-                                size: 20,
-                              ),
+                            CustomButton(
+                              function: _store.restart,
+                              icon: Icons.close_rounded,
+                              color: _store.rangeType == RangeType.job
+                                  ? Theme.of(context).colorScheme.primary
+                                  : Colors.green.shade900,
+                              size: 20,
                             ),
                           ],
                         ),

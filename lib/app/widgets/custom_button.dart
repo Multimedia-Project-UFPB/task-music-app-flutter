@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
-class InputButton extends StatelessWidget {
+class CustomButton extends StatelessWidget {
   final IconData icon;
+  final Color? color;
+  final double? size;
   final void Function()? function;
 
-  const InputButton({
+  const CustomButton({
     Key? key,
     required this.icon,
     this.function,
+    this.color,
+    this.size,
   }) : super(key: key);
 
   @override
@@ -16,7 +20,11 @@ class InputButton extends StatelessWidget {
     return Observer(
       builder: (_) => IconButton(
         onPressed: function,
-        icon: Icon(icon),
+        icon: Icon(
+          icon,
+          color: color,
+          size: size,
+        ),
         iconSize: 25,
       ),
     );

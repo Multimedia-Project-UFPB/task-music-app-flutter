@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:task_music/app/controller/pomodoro_store.dart';
 
 // Widget
-import 'package:task_music/app/widgets/input_button.dart';
+import 'package:task_music/app/widgets/custom_button.dart';
 
 class InputTime extends StatelessWidget {
   final int value;
@@ -38,7 +38,7 @@ class InputTime extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              InputButton(
+              CustomButton(
                 function: dec,
                 icon: Icons.arrow_downward_rounded,
               ),
@@ -48,7 +48,7 @@ class InputTime extends StatelessWidget {
                   fontSize: 16,
                 ),
               ),
-              InputButton(
+              CustomButton(
                 function: inc,
                 icon: Icons.arrow_upward_rounded,
               ),
