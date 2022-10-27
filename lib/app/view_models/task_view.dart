@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:task_music/app/widgets/custom_button.dart';
+import 'package:task_music/app/widgets/today_task.dart';
 
 class TaskView extends StatelessWidget {
   const TaskView({
@@ -32,28 +34,18 @@ class TaskView extends StatelessWidget {
                   'Tarefas',
                   style: TextStyle(fontSize: 18),
                 ),
-                IconButton(
-                  iconSize: 30,
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.add_box,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                )
+                CustomButton(
+                  icon: Icons.add_box,
+                  color: Theme.of(context).colorScheme.primary,
+                  size: 30,
+                ),
               ],
             ),
           ),
-          Card(
-            color: Colors.amber,
-            child: Column(
-              children: [
-                Text('data'),
-                Container(
-                  height: sizeHeight / 4.5,
-                  width: sizeWidth / 1.1,
-                )
-              ],
-            ),
+          TodayTask(
+            key,
+            'Titulo da tarefa ',
+            'Descrição da tarefa Descrição da tarefa Descrição da tarefa Descrição da tarefa Descrição da tarefa Descrição da tarefa',
           )
         ],
       ),
