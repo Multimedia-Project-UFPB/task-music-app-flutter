@@ -8,6 +8,9 @@ import 'package:task_music/app/controller/pomodoro_store.dart';
 // Enum
 import 'package:task_music/app/utils/enum/range_type.dart';
 
+// Widget
+import 'package:task_music/app/widgets/stopwatch_button.dart';
+
 class Stopwatch extends StatefulWidget {
   const Stopwatch({
     Key? key,
@@ -32,12 +35,12 @@ class _StopwatchState extends State<Stopwatch> {
           Container(
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(120),
+              borderRadius: BorderRadius.circular(150),
               boxShadow: [
                 BoxShadow(
                   color: _store.rangeType == RangeType.job
                       ? Theme.of(context).colorScheme.primary
-                      : Colors.green.shade900.withOpacity(0.9),
+                      : Colors.green.shade700,
                   spreadRadius: 6,
                   blurRadius: 9,
                   offset: const Offset(0, 1),
@@ -50,13 +53,33 @@ class _StopwatchState extends State<Stopwatch> {
             child: Stack(
               children: [
                 Center(
-                  child: Text(
-                    '${_store.minutes.toString().padLeft(2, '0')}:${_store.seconds.toString().padLeft(2, '0')}',
-                    style: Theme.of(context).textTheme.headline2!.copyWith(
-                          color: _store.rangeType == RangeType.job
-                              ? Theme.of(context).textTheme.bodyText1!.color
-                              : Colors.green.shade900,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 40.0),
+                        child: Text(
+                          _store.rangeType == RangeType.job
+                              ? 'Hora do Trabalho'
+                              : 'Hora do Descanso',
+                          style: TextStyle(
+                            color: _store.rangeType == RangeType.job
+                                ? Theme.of(context).textTheme.bodyText1!.color
+                                : Colors.green.shade900,
+                          ),
                         ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        '${_store.minutes.toString().padLeft(2, '0')}:${_store.seconds.toString().padLeft(2, '0')}',
+                        style: Theme.of(context).textTheme.headline2!.copyWith(
+                              color: _store.rangeType == RangeType.job
+                                  ? Theme.of(context).textTheme.bodyText1!.color
+                                  : Colors.green.shade900,
+                            ),
+                      ),
+                    ],
                   ),
                 ),
                 Positioned(
@@ -69,38 +92,21 @@ class _StopwatchState extends State<Stopwatch> {
                               ? const EdgeInsets.only(left: 20.0)
                               : const EdgeInsets.only(left: 6),
                           child: Center(
-                            child: ElevatedButton(
-                              onPressed: _store.start,
-                              child: !_store.initiated && !_store.pause
-                                  ? const Text("Iniciar")
-                                  : const Text('Continuar'),
-                              style: ElevatedButton.styleFrom(
-                                primary: _store.rangeType == RangeType.job
-                                    ? Theme.of(context).colorScheme.primary
-                                    : Colors.green.shade900,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30),
-                                ),
-                              ),
-                            ),
-                          ),
+                              child: StopWatchButton(
+                            function: _store.start,
+                            text: !_store.initiated && !_store.pause
+                                ? "Iniciar"
+                                : 'Continuar',
+                          )),
                         )
                       : Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Padding(
                               padding: const EdgeInsets.only(top: 5.0),
-                              child: ElevatedButton(
-                                onPressed: _store.stop,
-                                child: const Text("Pausar"),
-                                style: ElevatedButton.styleFrom(
-                                  primary: _store.rangeType == RangeType.job
-                                      ? Theme.of(context).colorScheme.primary
-                                      : Colors.green.shade900,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
-                                ),
+                              child: StopWatchButton(
+                                text: "Pausar",
+                                function: _store.stop,
                               ),
                             ),
                             IconButton(
