@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+// Controller
 import 'package:task_music/app/controller/pomodoro_store.dart';
 
 // Screens
 import 'package:task_music/app/view/home_screen.dart';
+import 'package:task_music/app/view/splash_screen.dart';
+import 'package:task_music/app/view/welcome_screen.dart';
 
 class AppWidget extends StatelessWidget {
   const AppWidget({Key? key}) : super(key: key);

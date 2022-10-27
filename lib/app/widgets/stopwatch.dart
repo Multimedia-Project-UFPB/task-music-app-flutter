@@ -40,7 +40,7 @@ class _StopwatchState extends State<Stopwatch> {
                 BoxShadow(
                   color: _store.rangeType == RangeType.job
                       ? Theme.of(context).colorScheme.primary
-                      : Colors.green.shade900.withOpacity(0.9),
+                      : Colors.green.shade700,
                   spreadRadius: 6,
                   blurRadius: 9,
                   offset: const Offset(0, 1),

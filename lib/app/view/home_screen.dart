@@ -43,6 +43,7 @@ class HomeScreen extends StatelessWidget {
             Stopwatch(sizeHeight: sizeHeight, sizeWidth: sizeWidth),
             Positioned(
               top: 350,
+              left: 20,
               child: Row(
                 children: [
                   InputTime(
@@ -56,21 +57,36 @@ class HomeScreen extends StatelessWidget {
                         : _store.increaseWorkingTime,
                   ),
                   SizedBox(
-                    width: sizeWidth / 3.3,
+                    width: sizeWidth / 6,
                   ),
                   InputTime(
                     value: _store.restTime,
                     title: "Descanso",
                     dec: _store.initiated && _store.rangeType == RangeType.rest
                         ? null
-                        : _store.decreaseWorkingTime,
+                        : _store.decreaseRestTime,
                     inc: _store.initiated && _store.rangeType == RangeType.rest
                         ? null
-                        : _store.increaseWorkingTime,
+                        : _store.increaseRestTime,
                   ),
                 ],
               ),
-            )
+            ),
+            Container(
+              margin: EdgeInsets.only(top: sizeHeight / 1.8),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.5),
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
+                ),
+              ),
+              child: Column(
+                children: [
+                  const Text('Tarefas'),
+                ],
+              ),
+            ),
           ],
         ),
       ),

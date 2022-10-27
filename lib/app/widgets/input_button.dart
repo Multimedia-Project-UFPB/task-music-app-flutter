@@ -17,6 +17,7 @@ class InputButton extends StatelessWidget {
       builder: (_) => IconButton(
         onPressed: function,
         icon: Icon(icon),
+        iconSize: 25,
       ),
     );
   }
