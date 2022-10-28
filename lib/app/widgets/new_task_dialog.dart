@@ -58,18 +58,28 @@ class NewTskDialog extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                ElevatedButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text('Salvar'),
+                buildButtonDialog(
+                  'Salvar',
+                  () {},
                 ),
-                ElevatedButton(
-                  onPressed: () {},
-                  child: const Text('Cancelar'),
-                ),
+                buildButtonDialog(
+                  'Cancelar',
+                  () => Navigator.pop(context),
+                )
               ],
             )
           ],
         ),
+      ),
+    );
+  }
+
+  ElevatedButton buildButtonDialog(String title, Function() function) {
+    return ElevatedButton(
+      onPressed: function,
+      child: Text(title),
+      style: ElevatedButton.styleFrom(
+        padding: const EdgeInsets.only(left: 20, right: 20),
       ),
     );
   }
