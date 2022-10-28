@@ -29,58 +29,108 @@ class NewTskDialog extends StatelessWidget {
                   .headline4!
                   .copyWith(color: Theme.of(context).colorScheme.primary),
             ),
-            TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderSide: const BorderSide(width: 1),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                labelText: 'Título',
-                hintText: 'Título',
+            Form(
+              child: Column(
+                children: [
+                  BuildTextFormField(
+                    labelText: 'Título',
+                    hintText: 'Título',
+                  ),
+                  const SizedBox(height: 10),
+                  BuildTextFormField(
+                    labelText: 'Título',
+                    hintText: 'Título',
+                    maxLength: 200,
+                    maxLines: 5,
+                    minLines: 2,
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      BuildButtonDialog(
+                        title: 'Salvar',
+                        function: () {},
+                        left: 20,
+                        rigth: 20,
+                      ),
+                      BuildButtonDialog(
+                        title: 'Cancelar',
+                        function: () => Navigator.pop(context),
+                        rigth: 12,
+                        left: 12,
+                      )
+                    ],
+                  )
+                ],
               ),
             ),
-            const SizedBox(height: 10),
-            TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderSide: const BorderSide(width: 1),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                labelText: 'Descrição',
-                hintText: 'Descrição',
-              ),
-              maxLength: 200,
-              minLines: 2,
-              maxLines: 5,
-              cursorColor: Theme.of(context).colorScheme.primary,
-            ),
-            const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                buildButtonDialog(
-                  'Salvar',
-                  () {},
-                ),
-                buildButtonDialog(
-                  'Cancelar',
-                  () => Navigator.pop(context),
-                )
-              ],
-            )
           ],
         ),
       ),
     );
   }
+}
 
-  ElevatedButton buildButtonDialog(String title, Function() function) {
+class BuildButtonDialog extends StatelessWidget {
+  final double left;
+  final double rigth;
+  const BuildButtonDialog({
+    Key? key,
+    required this.title,
+    required this.function,
+    required this.left,
+    required this.rigth,
+  }) : super(key: key);
+
+  final String title;
+  final Function() function;
+
+  @override
+  Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: function,
       child: Text(title),
       style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.only(left: 20, right: 20),
+        padding: EdgeInsets.only(
+          left: left,
+          right: rigth,
+        ),
       ),
+    );
+  }
+}
+
+class BuildTextFormField extends StatelessWidget {
+  final String labelText;
+  final String hintText;
+  final int? maxLength;
+  final int? minLines;
+  final int? maxLines;
+  const BuildTextFormField({
+    Key? key,
+    required this.labelText,
+    required this.hintText,
+    this.maxLength,
+    this.minLines,
+    this.maxLines,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      decoration: InputDecoration(
+        border: OutlineInputBorder(
+          borderSide: const BorderSide(width: 1),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        labelText: labelText,
+        hintText: hintText,
+      ),
+      maxLength: maxLength,
+      minLines: minLines,
+      maxLines: maxLines,
+      cursorColor: Theme.of(context).colorScheme.primary,
     );
   }
 }
