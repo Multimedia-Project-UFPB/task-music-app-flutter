@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:task_music/app/widgets/custom_button.dart';
+import 'package:task_music/app/widgets/new_task_dialog.dart';
 import 'package:task_music/app/widgets/today_task.dart';
 
 class TaskView extends StatelessWidget {
@@ -14,6 +15,22 @@ class TaskView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    _handleDialog() {
+      showModalBottomSheet<void>(
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+          top: Radius.circular(10),
+        )),
+        context: context,
+        isScrollControlled: true,
+        builder: (_) => Builder(builder: (context) {
+          return const SingleChildScrollView(
+            child: NewTskDialog(),
+          );
+        }),
+      );
+    }
+
     return Container(
       margin: EdgeInsets.only(top: sizeHeight / 1.8),
       decoration: BoxDecoration(
@@ -35,6 +52,7 @@ class TaskView extends StatelessWidget {
                   style: TextStyle(fontSize: 18),
                 ),
                 CustomButton(
+                  function: _handleDialog,
                   icon: Icons.add_box,
                   color: Theme.of(context).colorScheme.primary,
                   size: 30,
