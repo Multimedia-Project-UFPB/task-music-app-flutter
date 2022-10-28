@@ -5,6 +5,7 @@ class NewTskDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _formKey = GlobalKey<FormState>();
     final _size = MediaQuery.of(context).size;
     return Container(
       padding: EdgeInsets.only(
@@ -30,14 +31,15 @@ class NewTskDialog extends StatelessWidget {
                   .copyWith(color: Theme.of(context).colorScheme.primary),
             ),
             Form(
+              key: _formKey,
               child: Column(
                 children: [
-                  BuildTextFormField(
+                  const BuildTextFormField(
                     labelText: 'Título',
                     hintText: 'Título',
                   ),
                   const SizedBox(height: 10),
-                  BuildTextFormField(
+                  const BuildTextFormField(
                     labelText: 'Título',
                     hintText: 'Título',
                     maxLength: 200,

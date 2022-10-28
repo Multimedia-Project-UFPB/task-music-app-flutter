@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 // Controller
 import 'package:task_music/app/controller/pomodoro_store.dart';
+import 'package:task_music/app/controller/task_store.dart';
 
 // Screens
 import 'package:task_music/app/view/home_screen.dart';
@@ -17,9 +18,8 @@ class AppWidget extends StatelessWidget {
     ThemeData theme = ThemeData();
     return MultiProvider(
       providers: [
-        Provider<PomodoroStore>(
-          create: (_) => PomodoroStore(),
-        ),
+        Provider<PomodoroStore>(create: (_) => PomodoroStore()),
+        Provider<TaskStore>(create: (_) => TaskStore())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

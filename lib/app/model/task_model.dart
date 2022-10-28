@@ -1,9 +1,9 @@
 class TaskModel {
-  String title;
-  String description;
+  String? title;
+  String? description;
 
-  TaskModel(
+  TaskModel([
     this.title,
     this.description,
-  );
+  ]);
 }
