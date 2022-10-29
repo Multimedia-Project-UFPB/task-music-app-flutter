@@ -5,10 +5,9 @@ class TodayTask extends StatefulWidget {
   final String title;
   final String description;
   const TodayTask(
-    Key? key,
     this.title,
     this.description,
-  ) : super(key: key);
+  );
 
   @override
   State<TodayTask> createState() => _TodayTaskState();

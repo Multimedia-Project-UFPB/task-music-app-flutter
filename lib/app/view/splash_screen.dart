@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+// View
 import 'package:task_music/app/view/welcome_screen.dart';
 
 class SplashScreen extends StatefulWidget {

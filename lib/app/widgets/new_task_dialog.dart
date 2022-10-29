@@ -1,74 +1,68 @@
 import 'package:flutter/material.dart';
 
-class NewTskDialog extends StatelessWidget {
-  const NewTskDialog({Key? key}) : super(key: key);
+class NewTaskDialog extends StatelessWidget {
+  const NewTaskDialog({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
     final _size = MediaQuery.of(context).size;
     return Container(
-      padding: EdgeInsets.only(
-        bottom: MediaQuery.of(context).viewInsets.bottom,
+      padding: const EdgeInsets.all(20),
+      height: _size.height / 2.6,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
       ),
-      child: Container(
-        padding: EdgeInsets.all(20),
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(10),
-            topRight: Radius.circular(10),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'Nova Tarefa',
+            style: Theme.of(context)
+                .textTheme
+                .headline4!
+                .copyWith(color: Theme.of(context).colorScheme.primary),
           ),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'Nova Tarefa',
-              style: Theme.of(context)
-                  .textTheme
-                  .headline4!
-                  .copyWith(color: Theme.of(context).colorScheme.primary),
+          const SizedBox(height: 5),
+          Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                const BuildTextFormField(
+                  labelText: 'Título',
+                  hintText: 'Título',
+                ),
+                const SizedBox(height: 10),
+                const BuildTextFormField(
+                  labelText: 'Descrição',
+                  hintText: 'Descrição',
+                  maxLength: 200,
+                  maxLines: 5,
+                  minLines: 2,
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    BuildButtonDialog(
+                      title: 'Salvar',
+                      function: () {},
+                      left: 20,
+                      rigth: 20,
+                    ),
+                    BuildButtonDialog(
+                      title: 'Cancelar',
+                      function: () => Navigator.pop(context),
+                      rigth: 12,
+                      left: 12,
+                    )
+                  ],
+                )
+              ],
             ),
-            Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  const BuildTextFormField(
-                    labelText: 'Título',
-                    hintText: 'Título',
-                  ),
-                  const SizedBox(height: 10),
-                  const BuildTextFormField(
-                    labelText: 'Título',
-                    hintText: 'Título',
-                    maxLength: 200,
-                    maxLines: 5,
-                    minLines: 2,
-                  ),
-                  const SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      BuildButtonDialog(
-                        title: 'Salvar',
-                        function: () {},
-                        left: 20,
-                        rigth: 20,
-                      ),
-                      BuildButtonDialog(
-                        title: 'Cancelar',
-                        function: () => Navigator.pop(context),
-                        rigth: 12,
-                        left: 12,
-                      )
-                    ],
-                  )
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+
+// View Model
+import 'package:task_music/app/view_models/task_list_view.dart';
+
+// Widget
 import 'package:task_music/app/widgets/custom_button.dart';
 import 'package:task_music/app/widgets/new_task_dialog.dart';
-import 'package:task_music/app/widgets/today_task.dart';
 
 class TaskView extends StatelessWidget {
   const TaskView({
@@ -16,57 +20,58 @@ class TaskView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _handleDialog() {
-      showModalBottomSheet<void>(
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(
-          top: Radius.circular(10),
-        )),
+      showDialog<void>(
         context: context,
-        isScrollControlled: true,
-        builder: (_) => Builder(builder: (context) {
-          return const SingleChildScrollView(
-            child: NewTskDialog(),
-          );
-        }),
+        // isScrollControlled: true,
+        builder: (_) => Builder(
+          builder: (context) {
+            return const Dialog(
+              child: NewTaskDialog(),
+            );
+          },
+        ),
       );
     }
 
-    return Container(
-      margin: EdgeInsets.only(top: sizeHeight / 1.8),
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.4),
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
-        ),
-      ),
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  'Tarefas',
-                  style: TextStyle(fontSize: 18),
-                ),
-                CustomButton(
-                  function: _handleDialog,
-                  icon: Icons.add_box,
-                  color: Theme.of(context).colorScheme.primary,
-                  size: 30,
-                ),
-              ],
+    return Stack(
+      children: [
+        Container(
+          margin: EdgeInsets.only(top: sizeHeight / 1.8),
+          height: sizeHeight,
+          padding: MediaQuery.of(context).viewInsets,
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.4),
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
             ),
           ),
-          TodayTask(
-            key,
-            'Titulo da tarefa ',
-            'Descrição da tarefa Descrição da tarefa Descrição da tarefa Descrição da tarefa Descrição da tarefa Descrição da tarefa',
-          )
-        ],
-      ),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      'Tarefas',
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    CustomButton(
+                      function: _handleDialog,
+                      icon: Icons.add_box,
+                      color: Theme.of(context).colorScheme.primary,
+                      size: 30,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        const TaskListView()
+      ],
     );
   }
 }
