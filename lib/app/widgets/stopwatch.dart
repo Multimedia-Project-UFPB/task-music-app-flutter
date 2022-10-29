@@ -36,7 +36,7 @@ class _StopwatchState extends State<Stopwatch> {
           Container(
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(150),
+              borderRadius: BorderRadius.circular(200),
               boxShadow: [
                 BoxShadow(
                   color: _store.rangeType == RangeType.job
@@ -49,7 +49,7 @@ class _StopwatchState extends State<Stopwatch> {
               ],
             ),
             margin: const EdgeInsets.only(top: 120),
-            height: widget.sizeHeight / 3.5,
+            height: widget.sizeHeight / 4,
             width: widget.sizeWidth / 1.9,
             child: Stack(
               children: [

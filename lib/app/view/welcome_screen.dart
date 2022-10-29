@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+
+// View
 import 'package:task_music/app/view/home_screen.dart';
+
+// Utils
 import 'package:task_music/app/utils/filters/backgroud_filter_welcome.dart';
 
 class WelcomeScreen extends StatelessWidget {
