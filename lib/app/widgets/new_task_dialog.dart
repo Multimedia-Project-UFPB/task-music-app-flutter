@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:provider/provider.dart';
+import 'package:task_music/app/controller/task_store.dart';
 
 class NewTaskDialog extends StatelessWidget {
   const NewTaskDialog({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final _store = Provider.of<TaskStore>(context);
     final _formKey = GlobalKey<FormState>();
     final _size = MediaQuery.of(context).size;
     return Container(
@@ -25,45 +29,77 @@ class NewTaskDialog extends StatelessWidget {
                 .copyWith(color: Theme.of(context).colorScheme.primary),
           ),
           const SizedBox(height: 5),
-          Form(
-            key: _formKey,
-            child: Column(
-              children: [
-                const BuildTextFormField(
-                  labelText: 'Título',
-                  hintText: 'Título',
-                ),
-                const SizedBox(height: 10),
-                const BuildTextFormField(
-                  labelText: 'Descrição',
-                  hintText: 'Descrição',
-                  maxLength: 200,
-                  maxLines: 5,
-                  minLines: 2,
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    BuildButtonDialog(
-                      title: 'Salvar',
-                      function: () {},
-                      left: 20,
-                      rigth: 20,
-                    ),
-                    BuildButtonDialog(
-                      title: 'Cancelar',
-                      function: () => Navigator.pop(context),
-                      rigth: 12,
-                      left: 12,
-                    )
-                  ],
-                )
-              ],
+          Observer(
+            builder: (_) => Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  buildTextFormFieldTitle(_store, context),
+                  const SizedBox(height: 10),
+                  buildTextFormFieldDescription(_store, context),
+                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      BuildButtonDialog(
+                        title: 'Salvar',
+                        function: () {
+                          print(
+                            '${_store.taskModel.title.toString()}\n${_store.taskModel.description.toString()}',
+                          );
+                        },
+                        left: 20,
+                        rigth: 20,
+                      ),
+                      BuildButtonDialog(
+                        title: 'Cancelar',
+                        function: () => Navigator.pop(context),
+                        rigth: 12,
+                        left: 12,
+                      )
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
         ],
       ),
+    );
+  }
+
+  TextFormField buildTextFormFieldDescription(
+      TaskStore _store, BuildContext context) {
+    return TextFormField(
+      decoration: InputDecoration(
+        border: OutlineInputBorder(
+          borderSide: const BorderSide(width: 1),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        labelText: 'Descrição',
+        hintText: 'Descrição',
+      ),
+      onChanged: _store.setDescription,
+      maxLength: 200,
+      maxLines: 5,
+      minLines: 2,
+      cursorColor: Theme.of(context).colorScheme.primary,
+    );
+  }
+
+  TextFormField buildTextFormFieldTitle(
+      TaskStore _store, BuildContext context) {
+    return TextFormField(
+      decoration: InputDecoration(
+        border: OutlineInputBorder(
+          borderSide: const BorderSide(width: 1),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        labelText: 'Título',
+        hintText: 'Título',
+      ),
+      onChanged: _store.setTitlte,
+      cursorColor: Theme.of(context).colorScheme.primary,
     );
   }
 }
@@ -93,40 +129,6 @@ class BuildButtonDialog extends StatelessWidget {
           right: rigth,
         ),
       ),
-    );
-  }
-}
-
-class BuildTextFormField extends StatelessWidget {
-  final String labelText;
-  final String hintText;
-  final int? maxLength;
-  final int? minLines;
-  final int? maxLines;
-  const BuildTextFormField({
-    Key? key,
-    required this.labelText,
-    required this.hintText,
-    this.maxLength,
-    this.minLines,
-    this.maxLines,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderSide: const BorderSide(width: 1),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        labelText: labelText,
-        hintText: hintText,
-      ),
-      maxLength: maxLength,
-      minLines: minLines,
-      maxLines: maxLines,
-      cursorColor: Theme.of(context).colorScheme.primary,
     );
   }
 }

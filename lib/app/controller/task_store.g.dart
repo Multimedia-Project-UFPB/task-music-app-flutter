@@ -9,6 +9,21 @@ part of 'task_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$TaskStore on _TaskStoreBase, Store {
+  Computed<String>? _$getTitlteComputed;
+
+  @override
+  String get getTitlte =>
+      (_$getTitlteComputed ??= Computed<String>(() => super.getTitlte,
+              name: '_TaskStoreBase.getTitlte'))
+          .value;
+  Computed<String>? _$getDescriptionComputed;
+
+  @override
+  String get getDescription =>
+      (_$getDescriptionComputed ??= Computed<String>(() => super.getDescription,
+              name: '_TaskStoreBase.getDescription'))
+          .value;
+
   late final _$taskListAtom =
       Atom(name: '_TaskStoreBase.taskList', context: context);
 
@@ -78,7 +93,9 @@ mixin _$TaskStore on _TaskStoreBase, Store {
   String toString() {
     return '''
 taskList: ${taskList},
-taskModel: ${taskModel}
+taskModel: ${taskModel},
+getTitlte: ${getTitlte},
+getDescription: ${getDescription}
     ''';
   }
 }

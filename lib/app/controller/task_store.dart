@@ -23,4 +23,9 @@ abstract class _TaskStoreBase with Store {
   void setTitlte(String value) => taskModel.title = value;
   @action
   void setDescription(String value) => taskModel.description = value;
+
+  @computed
+  String get getTitlte => taskModel.title.toString();
+  @computed
+  String get getDescription => taskModel.description.toString();
 }
