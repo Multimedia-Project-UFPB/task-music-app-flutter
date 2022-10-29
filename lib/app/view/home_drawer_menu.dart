@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:task_music/app/view/home_screen.dart';
-import 'package:task_music/app/view/welcome_screen.dart';
+import 'package:task_music/app/view/music_player.dart';
 
 class MenuItem {
   final String title;
@@ -21,6 +21,7 @@ class MenuItems {
 }
 
 class HomeDrawerMenu extends StatefulWidget {
+  static const String route = '/home-drawer';
   const HomeDrawerMenu({Key? key}) : super(key: key);
 
   @override
@@ -55,7 +56,7 @@ class _HomeDrawerMenuState extends State<HomeDrawerMenu> {
       case MenuItems.task:
         return const HomeScreen();
       case MenuItems.music:
-        return const WelcomeScreen();
+        return const MusicPlayer();
 
       default:
     }

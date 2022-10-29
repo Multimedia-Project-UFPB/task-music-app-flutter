@@ -21,7 +21,6 @@ import 'package:task_music/app/widgets/stopwatch.dart';
 import 'package:task_music/app/view_models/task_view.dart';
 
 class HomeScreen extends StatelessWidget {
-  static const String route = '/home-screen';
   const HomeScreen({Key? key}) : super(key: key);
 
   @override

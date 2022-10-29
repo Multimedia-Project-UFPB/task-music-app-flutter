@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 // View
-import 'package:task_music/app/view/home_screen.dart';
+import 'package:task_music/app/view/home_drawer_menu.dart';
 
 // Utils
 import 'package:task_music/app/utils/filters/backgroud_filter_welcome.dart';
@@ -97,7 +97,7 @@ class _ContainerStart extends StatelessWidget {
                 GestureDetector(
                   onTap: () => Navigator.popAndPushNamed(
                     context,
-                    HomeScreen.route,
+                    HomeDrawerMenu.route,
                   ),
                   child: Container(
                     margin: const EdgeInsets.only(top: 25, left: 20, right: 20),
