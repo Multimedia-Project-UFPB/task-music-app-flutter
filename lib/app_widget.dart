@@ -4,8 +4,9 @@ import 'package:provider/provider.dart';
 // Controller
 import 'package:task_music/app/controller/pomodoro_store.dart';
 import 'package:task_music/app/controller/task_store.dart';
+import 'package:task_music/app/view/home_drawer_menu.dart';
 
-// Screens
+// View
 import 'package:task_music/app/view/home_screen.dart';
 import 'package:task_music/app/view/splash_screen.dart';
 import 'package:task_music/app/view/welcome_screen.dart';
@@ -19,7 +20,7 @@ class AppWidget extends StatelessWidget {
     return MultiProvider(
       providers: [
         Provider<PomodoroStore>(create: (_) => PomodoroStore()),
-        Provider<TaskStore>(create: (_) => TaskStore())
+        ChangeNotifierProvider<TaskStore>(create: (_) => TaskStore())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -33,7 +34,7 @@ class AppWidget extends StatelessWidget {
                 bodyColor: const Color(0xffd1192f),
               ),
         ),
-        home: const HomeScreen(),
+        home: const HomeDrawerMenu(),
         // initialRoute: SplashScreen.route,
         // routes: {
         //   SplashScreen.route: (_) => const SplashScreen(),

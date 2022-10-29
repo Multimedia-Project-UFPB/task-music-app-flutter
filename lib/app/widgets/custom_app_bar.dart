@@ -1,11 +1,29 @@
 import 'package:flutter/material.dart';
 
+// Widget
+import 'package:task_music/app/widgets/new_task_dialog.dart';
+
 class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
-  const CustomAppBar({Key? key}) : super(key: key);
+  final void Function() func;
+
+  const CustomAppBar({Key? key, required this.func}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final sizeWidth = MediaQuery.of(context).size.width;
+    _handleDialog() {
+      showDialog<void>(
+        context: context,
+        // isScrollControlled: true,
+        builder: (_) => Builder(
+          builder: (context) {
+            return const Dialog(
+              child: NewTaskDialog(),
+            );
+          },
+        ),
+      );
+    }
+
     return Padding(
       padding: const EdgeInsets.only(
         top: 20,
@@ -17,14 +35,14 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
             Icons.grid_view_rounded,
             color: Theme.of(context).colorScheme.primary,
           ),
-          onPressed: () => Scaffold.of(context).openDrawer(),
+          onPressed: func,
         ),
         title: Text(
           'TaskMusic',
           style: Theme.of(context)
               .textTheme
               .headline3!
-              .copyWith(color: Theme.of(context).textTheme.bodyText1!.color),
+              .copyWith(color: Theme.of(context).colorScheme.primary),
         ),
         centerTitle: true,
         backgroundColor: Colors.transparent,
@@ -36,7 +54,7 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
                 Icons.add_task,
                 color: Theme.of(context).colorScheme.primary,
               ),
-              onPressed: () {},
+              onPressed: _handleDialog,
             ),
           ),
         ],

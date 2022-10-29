@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:task_music/app/controller/task_store.dart';
 import 'package:task_music/app/widgets/custom_button.dart';
 
 class TodayTask extends StatefulWidget {
   final String title;
   final String description;
+  final void Function()? function;
   const TodayTask(
     this.title,
     this.description,
+    this.function,
   );
 
   @override
@@ -21,9 +25,12 @@ class _TodayTaskState extends State<TodayTask> {
     Colors.green,
   ];
   int _colorIndex = 0;
+
   @override
   Widget build(BuildContext context) {
+    final _store = Provider.of<TaskStore>(context);
     final _query = MediaQuery.of(context);
+
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
@@ -51,6 +58,7 @@ class _TodayTaskState extends State<TodayTask> {
                   CustomButton(
                     icon: Icons.delete_outline,
                     color: Theme.of(context).colorScheme.primary,
+                    function: widget.function,
                   ),
                 ],
               ),

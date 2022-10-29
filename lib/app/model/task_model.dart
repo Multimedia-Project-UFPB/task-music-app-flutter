@@ -1,9 +1,11 @@
 class TaskModel {
+  String? id;
   String? title;
   String? description;
 
-  TaskModel([
+  TaskModel({
+    this.id,
     this.title,
     this.description,
-  ]);
+  });
 }

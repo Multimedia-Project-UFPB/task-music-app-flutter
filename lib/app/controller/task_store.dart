@@ -1,21 +1,40 @@
-import 'package:mobx/mobx.dart';
+import 'dart:math';
 
-// Model
-import 'package:task_music/app/model/task_model.dart';
+import 'package:flutter/material.dart';
 
-part 'task_store.g.dart';
+import '../model/task_model.dart';
 
-class TaskStore = _TaskStoreBase with _$TaskStore;
-
-abstract class _TaskStoreBase with Store {
-  @observable
+class TaskStore extends ChangeNotifier {
   List<TaskModel> taskList = [];
 
-  @observable
-  TaskModel taskModel = TaskModel();
+  TextEditingController controllerTitle = TextEditingController();
+  TextEditingController controllerDescription = TextEditingController();
 
-  @action
   Future<List<TaskModel>> getTasks() async {
     return await Future.delayed(const Duration(seconds: 1), () => taskList);
+  }
+
+  Future<void> addTask(TaskModel task) async {
+    taskList.add(task);
+    clearTextFormField();
+    notifyListeners();
+  }
+
+  TaskModel returnTask() {
+    return TaskModel(
+      id: Random().nextInt(100).toString(),
+      title: controllerTitle.text,
+      description: controllerDescription.text,
+    );
+  }
+
+  void deleteTask(String id) {
+    taskList.removeWhere((element) => element.id == id);
+    notifyListeners();
+  }
+
+  void clearTextFormField() {
+    controllerTitle.clear();
+    controllerDescription.clear();
   }
 }

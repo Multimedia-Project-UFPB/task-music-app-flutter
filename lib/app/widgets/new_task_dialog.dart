@@ -1,15 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:task_music/app/controller/task_store.dart';
 
 class NewTaskDialog extends StatelessWidget {
   const NewTaskDialog({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final _store = Provider.of<TaskStore>(context);
     final _formKey = GlobalKey<FormState>();
     final _size = MediaQuery.of(context).size;
+
+    _handlerAddTask() {
+      if (_formKey.currentState!.validate()) {
+        _store.addTask(_store.returnTask());
+        _formKey.currentState?.save();
+        Navigator.pop(context);
+      }
+    }
+
     return Container(
       padding: const EdgeInsets.all(20),
-      height: _size.height / 2.6,
+      height: _size.height / 2.1,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
@@ -29,31 +41,25 @@ class NewTaskDialog extends StatelessWidget {
             key: _formKey,
             child: Column(
               children: [
-                const BuildTextFormField(
-                  labelText: 'Título',
-                  hintText: 'Título',
-                ),
+                buildTextFormFieldTitle(_store, context),
                 const SizedBox(height: 10),
-                const BuildTextFormField(
-                  labelText: 'Descrição',
-                  hintText: 'Descrição',
-                  maxLength: 200,
-                  maxLines: 5,
-                  minLines: 2,
-                ),
+                buildTextFormFieldDescription(_store, context),
                 const SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     BuildButtonDialog(
                       title: 'Salvar',
-                      function: () {},
+                      function: _handlerAddTask,
                       left: 20,
                       rigth: 20,
                     ),
                     BuildButtonDialog(
                       title: 'Cancelar',
-                      function: () => Navigator.pop(context),
+                      function: () {
+                        Navigator.pop(context);
+                        _store.clearTextFormField();
+                      },
                       rigth: 12,
                       left: 12,
                     )
@@ -64,6 +70,53 @@ class NewTaskDialog extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  TextFormField buildTextFormFieldDescription(
+      TaskStore _store, BuildContext context) {
+    return TextFormField(
+      decoration: InputDecoration(
+        border: OutlineInputBorder(
+          borderSide: const BorderSide(width: 1),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        labelText: 'Descrição',
+        hintText: 'Descrição',
+      ),
+      controller: _store.controllerDescription,
+      maxLength: 200,
+      maxLines: 5,
+      minLines: 2,
+      cursorColor: Theme.of(context).colorScheme.primary,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Campo obrigatório';
+        }
+        return null;
+      },
+    );
+  }
+
+  TextFormField buildTextFormFieldTitle(
+      TaskStore _store, BuildContext context) {
+    return TextFormField(
+      decoration: InputDecoration(
+        border: OutlineInputBorder(
+          borderSide: const BorderSide(width: 1),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        labelText: 'Título',
+        hintText: 'Título',
+      ),
+      controller: _store.controllerTitle,
+      cursorColor: Theme.of(context).colorScheme.primary,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Campo obrigatório';
+        }
+        return null;
+      },
     );
   }
 }
@@ -93,40 +146,6 @@ class BuildButtonDialog extends StatelessWidget {
           right: rigth,
         ),
       ),
-    );
-  }
-}
-
-class BuildTextFormField extends StatelessWidget {
-  final String labelText;
-  final String hintText;
-  final int? maxLength;
-  final int? minLines;
-  final int? maxLines;
-  const BuildTextFormField({
-    Key? key,
-    required this.labelText,
-    required this.hintText,
-    this.maxLength,
-    this.minLines,
-    this.maxLines,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderSide: const BorderSide(width: 1),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        labelText: labelText,
-        hintText: hintText,
-      ),
-      maxLength: maxLength,
-      minLines: minLines,
-      maxLines: maxLines,
-      cursorColor: Theme.of(context).colorScheme.primary,
     );
   }
 }
