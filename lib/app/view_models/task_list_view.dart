@@ -23,7 +23,6 @@ class TaskListView extends StatefulWidget {
 class _TaskListViewState extends State<TaskListView> {
   @override
   Widget build(BuildContext context) {
-    // final _store = Provider.of<TaskStore>(context);
     final _sizeHeight = MediaQuery.of(context).size.height;
 
     return Container(

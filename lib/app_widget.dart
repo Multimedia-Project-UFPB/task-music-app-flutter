@@ -33,13 +33,13 @@ class AppWidget extends StatelessWidget {
                 bodyColor: const Color(0xffd1192f),
               ),
         ),
-        home: const HomeScreen(),
-        // initialRoute: SplashScreen.route,
-        // routes: {
-        //   SplashScreen.route: (_) => const SplashScreen(),
-        //   WelcomeScreen.route: (_) => const WelcomeScreen(),
-        //   HomeScreen.route: (_) => const HomeScreen(),
-        // },
+        // home: const HomeScreen(),
+        initialRoute: SplashScreen.route,
+        routes: {
+          SplashScreen.route: (_) => const SplashScreen(),
+          WelcomeScreen.route: (_) => const WelcomeScreen(),
+          HomeScreen.route: (_) => const HomeScreen(),
+        },
       ),
     );
   }
