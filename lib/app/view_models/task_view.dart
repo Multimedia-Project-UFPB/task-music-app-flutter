@@ -46,28 +46,30 @@ class TaskView extends StatelessWidget {
               topRight: Radius.circular(20),
             ),
           ),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(16),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      'Tarefas',
-                      style: TextStyle(fontSize: 18),
-                    ),
-                    CustomButton(
-                      function: _handleDialog,
-                      icon: Icons.add_box,
-                      color: Theme.of(context).colorScheme.primary,
-                      size: 30,
-                    ),
-                  ],
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Tarefas',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                      CustomButton(
+                        function: _handleDialog,
+                        icon: Icons.add_box,
+                        color: Theme.of(context).colorScheme.primary,
+                        size: 30,
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
         const TaskListView()
