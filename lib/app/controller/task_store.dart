@@ -28,6 +28,11 @@ class TaskStore extends ChangeNotifier {
     );
   }
 
+  void deleteTask(String id) {
+    taskList.removeWhere((element) => element.id == id);
+    notifyListeners();
+  }
+
   void clearTextFormField() {
     controllerTitle.clear();
     controllerDescription.clear();
