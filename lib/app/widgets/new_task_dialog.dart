@@ -11,6 +11,14 @@ class NewTaskDialog extends StatelessWidget {
     final _store = Provider.of<TaskStore>(context);
     final _formKey = GlobalKey<FormState>();
     final _size = MediaQuery.of(context).size;
+
+    _handlerAddTask() {
+      _formKey.currentState!.validate();
+      _store.addTask(_store.returnTask());
+      _formKey.currentState?.save();
+      Navigator.pop(context);
+    }
+
     return Container(
       padding: const EdgeInsets.all(20),
       height: _size.height / 2.3,
@@ -43,11 +51,7 @@ class NewTaskDialog extends StatelessWidget {
                     children: [
                       BuildButtonDialog(
                         title: 'Salvar',
-                        function: () {
-                          print(
-                            '${_store.taskModel.title.toString()}\n${_store.taskModel.description.toString()}',
-                          );
-                        },
+                        function: _handlerAddTask,
                         left: 20,
                         rigth: 20,
                       ),
@@ -79,7 +83,7 @@ class NewTaskDialog extends StatelessWidget {
         labelText: 'Descrição',
         hintText: 'Descrição',
       ),
-      onChanged: _store.setDescription,
+      controller: _store.controllerDescription,
       maxLength: 200,
       maxLines: 5,
       minLines: 2,
@@ -98,7 +102,7 @@ class NewTaskDialog extends StatelessWidget {
         labelText: 'Título',
         hintText: 'Título',
       ),
-      onChanged: _store.setTitlte,
+      controller: _store.controllerTitle,
       cursorColor: Theme.of(context).colorScheme.primary,
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 
 // Controller
@@ -29,29 +30,31 @@ class _TaskListViewState extends State<TaskListView> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       margin: EdgeInsets.only(top: _sizeHeight / 1.5),
-      child: CustomFutureBuilder<List<TaskModel>>(
-        future: _store.getTasks(),
-        onEmpty: (context) => const SizedBox(),
-        onError: (context, error) => Center(
-          child: Text(error.message),
+      child: Observer(
+        builder: (_) => CustomFutureBuilder<List<TaskModel>>(
+          future: _store.getTasks(),
+          onEmpty: (context) => const SizedBox(),
+          onError: (context, error) => Center(
+            child: Text(error.message),
+          ),
+          onLoading: (context) => const Center(
+            child: CircularProgressIndicator.adaptive(),
+          ),
+          onComplete: (context) => _store.taskList.isEmpty
+              ? const Center(child: Text('Não há tarefas cadastradas!'))
+              : ListView.builder(
+                  padding: const EdgeInsets.only(bottom: 100),
+                  shrinkWrap: true,
+                  itemCount: _store.taskList.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    var _task = _store.taskList[index];
+                    return TodayTask(
+                      _task.title.toString(),
+                      _task.description.toString(),
+                    );
+                  },
+                ),
         ),
-        onLoading: (context) => const Center(
-          child: CircularProgressIndicator.adaptive(),
-        ),
-        onComplete: (context) => _store.taskList.isEmpty
-            ? const Center(child: Text('Não há tarefas cadastradas!'))
-            : ListView.builder(
-                padding: const EdgeInsets.only(bottom: 100),
-                shrinkWrap: true,
-                itemCount: _store.taskList.length,
-                itemBuilder: (BuildContext context, int index) {
-                  var _task = _store.taskList[index];
-                  return TodayTask(
-                    _task.title.toString(),
-                    _task.description.toString(),
-                  );
-                },
-              ),
       ),
     );
   }
