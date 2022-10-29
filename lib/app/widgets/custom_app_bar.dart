@@ -1,11 +1,27 @@
 import 'package:flutter/material.dart';
 
+// Widget
+import 'package:task_music/app/widgets/new_task_dialog.dart';
+
 class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
   const CustomAppBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final sizeWidth = MediaQuery.of(context).size.width;
+    _handleDialog() {
+      showDialog<void>(
+        context: context,
+        // isScrollControlled: true,
+        builder: (_) => Builder(
+          builder: (context) {
+            return const Dialog(
+              child: NewTaskDialog(),
+            );
+          },
+        ),
+      );
+    }
+
     return Padding(
       padding: const EdgeInsets.only(
         top: 20,
@@ -36,7 +52,7 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
                 Icons.add_task,
                 color: Theme.of(context).colorScheme.primary,
               ),
-              onPressed: () {},
+              onPressed: _handleDialog,
             ),
           ),
         ],

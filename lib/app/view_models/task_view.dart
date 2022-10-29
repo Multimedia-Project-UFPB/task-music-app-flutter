@@ -20,9 +20,8 @@ class TaskView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _handleDialog() {
-      showDialog<void>(
+      showDialog(
         context: context,
-        // isScrollControlled: true,
         builder: (_) => Builder(
           builder: (context) {
             return const Dialog(
