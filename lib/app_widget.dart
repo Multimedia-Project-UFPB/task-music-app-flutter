@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 // Controller
 import 'package:task_music/app/controller/pomodoro_store.dart';
 import 'package:task_music/app/controller/task_store.dart';
+import 'package:task_music/app/view/home_drawer_menu.dart';
 
 // View
 import 'package:task_music/app/view/home_screen.dart';
@@ -33,13 +34,13 @@ class AppWidget extends StatelessWidget {
                 bodyColor: const Color(0xffd1192f),
               ),
         ),
-        // home: const HomeScreen(),
-        initialRoute: SplashScreen.route,
-        routes: {
-          SplashScreen.route: (_) => const SplashScreen(),
-          WelcomeScreen.route: (_) => const WelcomeScreen(),
-          HomeScreen.route: (_) => const HomeScreen(),
-        },
+        home: const HomeDrawerMenu(),
+        // initialRoute: SplashScreen.route,
+        // routes: {
+        //   SplashScreen.route: (_) => const SplashScreen(),
+        //   WelcomeScreen.route: (_) => const WelcomeScreen(),
+        //   HomeScreen.route: (_) => const HomeScreen(),
+        // },
       ),
     );
   }

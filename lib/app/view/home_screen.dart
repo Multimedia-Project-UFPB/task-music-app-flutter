@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:provider/provider.dart';
 
 // Controller
@@ -32,8 +33,10 @@ class HomeScreen extends StatelessWidget {
     return Observer(
       builder: (_) => Scaffold(
         // backgroundColor: Colors.amber,
-        appBar: const CustomAppBar(),
-        drawer: const Drawer(),
+        appBar: CustomAppBar(
+          func: () => ZoomDrawer.of(context)!.toggle(),
+        ),
+
         extendBodyBehindAppBar: true,
         body: Stack(
           fit: StackFit.expand,

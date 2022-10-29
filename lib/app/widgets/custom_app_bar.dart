@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:task_music/app/widgets/new_task_dialog.dart';
 
 class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
-  const CustomAppBar({Key? key}) : super(key: key);
+  final void Function() func;
+
+  const CustomAppBar({Key? key, required this.func}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +35,7 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
             Icons.grid_view_rounded,
             color: Theme.of(context).colorScheme.primary,
           ),
-          onPressed: () => Scaffold.of(context).openDrawer(),
+          onPressed: func,
         ),
         title: Text(
           'TaskMusic',

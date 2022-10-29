@@ -40,7 +40,9 @@ class _TaskListViewState extends State<TaskListView> {
           ),
           onComplete: (context) => taskData.taskList.isEmpty
               ? const Center(child: Text('Não há tarefas cadastradas!'))
-              : ListView.builder(
+              : ListView.separated(
+                  separatorBuilder: ((context, index) =>
+                      const SizedBox(height: 5)),
                   padding: const EdgeInsets.only(bottom: 100),
                   shrinkWrap: true,
                   itemCount: taskData.taskList.length,
