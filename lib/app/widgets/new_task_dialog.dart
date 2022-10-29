@@ -13,15 +13,16 @@ class NewTaskDialog extends StatelessWidget {
     final _size = MediaQuery.of(context).size;
 
     _handlerAddTask() {
-      _formKey.currentState!.validate();
-      _store.addTask(_store.returnTask());
-      _formKey.currentState?.save();
-      Navigator.pop(context);
+      if (_formKey.currentState!.validate()) {
+        _store.addTask(_store.returnTask());
+        _formKey.currentState?.save();
+        Navigator.pop(context);
+      }
     }
 
     return Container(
       padding: const EdgeInsets.all(20),
-      height: _size.height / 2.3,
+      height: _size.height / 2.1,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
@@ -57,7 +58,10 @@ class NewTaskDialog extends StatelessWidget {
                       ),
                       BuildButtonDialog(
                         title: 'Cancelar',
-                        function: () => Navigator.pop(context),
+                        function: () {
+                          Navigator.pop(context);
+                          _store.clearTextFormField();
+                        },
                         rigth: 12,
                         left: 12,
                       )
@@ -88,6 +92,12 @@ class NewTaskDialog extends StatelessWidget {
       maxLines: 5,
       minLines: 2,
       cursorColor: Theme.of(context).colorScheme.primary,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Campo obrigatório';
+        }
+        return null;
+      },
     );
   }
 
@@ -104,6 +114,12 @@ class NewTaskDialog extends StatelessWidget {
       ),
       controller: _store.controllerTitle,
       cursorColor: Theme.of(context).colorScheme.primary,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Campo obrigatório';
+        }
+        return null;
+      },
     );
   }
 }
