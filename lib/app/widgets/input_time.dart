@@ -1,9 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:provider/provider.dart';
-
-// Controller
-import 'package:task_music/app/controller/pomodoro_store.dart';
 
 // Widget
 import 'package:task_music/app/widgets/custom_button.dart';
