@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 
 class CustomButton extends StatelessWidget {
   final IconData icon;
@@ -17,16 +16,14 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Observer(
-      builder: (_) => IconButton(
-        onPressed: function,
-        icon: Icon(
-          icon,
-          color: color,
-          size: size,
-        ),
-        iconSize: 25,
+    return IconButton(
+      onPressed: function,
+      icon: Icon(
+        icon,
+        color: color,
+        size: size,
       ),
+      iconSize: 25,
     );
   }
 }

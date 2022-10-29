@@ -38,37 +38,35 @@ class NewTaskDialog extends StatelessWidget {
                 .copyWith(color: Theme.of(context).colorScheme.primary),
           ),
           const SizedBox(height: 5),
-          Observer(
-            builder: (_) => Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  buildTextFormFieldTitle(_store, context),
-                  const SizedBox(height: 10),
-                  buildTextFormFieldDescription(_store, context),
-                  const SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      BuildButtonDialog(
-                        title: 'Salvar',
-                        function: _handlerAddTask,
-                        left: 20,
-                        rigth: 20,
-                      ),
-                      BuildButtonDialog(
-                        title: 'Cancelar',
-                        function: () {
-                          Navigator.pop(context);
-                          _store.clearTextFormField();
-                        },
-                        rigth: 12,
-                        left: 12,
-                      )
-                    ],
-                  )
-                ],
-              ),
+          Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                buildTextFormFieldTitle(_store, context),
+                const SizedBox(height: 10),
+                buildTextFormFieldDescription(_store, context),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    BuildButtonDialog(
+                      title: 'Salvar',
+                      function: _handlerAddTask,
+                      left: 20,
+                      rigth: 20,
+                    ),
+                    BuildButtonDialog(
+                      title: 'Cancelar',
+                      function: () {
+                        Navigator.pop(context);
+                        _store.clearTextFormField();
+                      },
+                      rigth: 12,
+                      left: 12,
+                    )
+                  ],
+                )
+              ],
             ),
           ),
         ],
