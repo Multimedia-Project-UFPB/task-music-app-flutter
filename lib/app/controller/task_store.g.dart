@@ -49,6 +49,31 @@ mixin _$TaskStore on _TaskStoreBase, Store {
     return _$getTasksAsyncAction.run(() => super.getTasks());
   }
 
+  late final _$_TaskStoreBaseActionController =
+      ActionController(name: '_TaskStoreBase', context: context);
+
+  @override
+  void setTitlte(String value) {
+    final _$actionInfo = _$_TaskStoreBaseActionController.startAction(
+        name: '_TaskStoreBase.setTitlte');
+    try {
+      return super.setTitlte(value);
+    } finally {
+      _$_TaskStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setDescription(String value) {
+    final _$actionInfo = _$_TaskStoreBaseActionController.startAction(
+        name: '_TaskStoreBase.setDescription');
+    try {
+      return super.setDescription(value);
+    } finally {
+      _$_TaskStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''

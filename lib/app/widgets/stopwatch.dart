@@ -49,7 +49,7 @@ class _StopwatchState extends State<Stopwatch> {
               ],
             ),
             margin: const EdgeInsets.only(top: 120),
-            height: widget.sizeHeight / 4,
+            height: widget.sizeHeight / 3.5,
             width: widget.sizeWidth / 1.9,
             child: Stack(
               children: [

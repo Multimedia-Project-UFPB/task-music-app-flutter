@@ -9,7 +9,7 @@ class NewTaskDialog extends StatelessWidget {
     final _size = MediaQuery.of(context).size;
     return Container(
       padding: const EdgeInsets.all(20),
-      height: _size.height / 2.6,
+      height: _size.height / 2.3,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),

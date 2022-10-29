@@ -18,4 +18,9 @@ abstract class _TaskStoreBase with Store {
   Future<List<TaskModel>> getTasks() async {
     return await Future.delayed(const Duration(seconds: 1), () => taskList);
   }
+
+  @action
+  void setTitlte(String value) => taskModel.title = value;
+  @action
+  void setDescription(String value) => taskModel.description = value;
 }
