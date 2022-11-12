@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
+import 'package:provider/provider.dart';
+import 'package:task_music/app/controller/task_store.dart';
 import 'package:task_music/app/view/home_screen.dart';
-import 'package:task_music/app/view/welcome_screen.dart';
+import 'package:task_music/app/view/music_player.dart';
 
 class MenuItem {
   final String title;
@@ -21,6 +23,7 @@ class MenuItems {
 }
 
 class HomeDrawerMenu extends StatefulWidget {
+  static const String route = '/home-drawer';
   const HomeDrawerMenu({Key? key}) : super(key: key);
 
   @override
@@ -31,31 +34,35 @@ class _HomeDrawerMenuState extends State<HomeDrawerMenu> {
   MenuItem currentItem = MenuItems.task;
 
   @override
-  Widget build(BuildContext context) => ZoomDrawer(
-        menuBackgroundColor: Theme.of(context).colorScheme.primary,
-        mainScreen: getScreen(),
-        menuScreen: Builder(
-          builder: (context) => MenuScreen(
-            currentItem: currentItem,
-            onSelectedItem: (item) {
-              setState(() => currentItem = item);
-              ZoomDrawer.of(context)!.close();
-            },
-          ),
+  Widget build(BuildContext context) {
+    final store = Provider.of<TaskStore>(context);
+    return ZoomDrawer(
+      menuBackgroundColor: Theme.of(context).colorScheme.primary,
+      mainScreen: getScreen(),
+      menuScreen: Builder(
+        builder: (context) => MenuScreen(
+          currentItem: currentItem,
+          onSelectedItem: (item) {
+            setState(() => currentItem = item);
+            ZoomDrawer.of(context)!.close();
+            store.changeIcon = !store.changeIcon;
+          },
         ),
-        slideWidth: MediaQuery.of(context).size.width * 0.60,
-        angle: -10.0,
-        showShadow: true,
-        shadowLayer1Color: const Color(0xff7c0000),
-        shadowLayer2Color: const Color.fromARGB(255, 229, 89, 89),
-      );
+      ),
+      slideWidth: MediaQuery.of(context).size.width * 0.60,
+      angle: -10.0,
+      showShadow: true,
+      shadowLayer1Color: const Color(0xff7c0000),
+      shadowLayer2Color: const Color.fromARGB(255, 229, 89, 89),
+    );
+  }
 
   getScreen() {
     switch (currentItem) {
       case MenuItems.task:
         return const HomeScreen();
       case MenuItems.music:
-        return const WelcomeScreen();
+        return const MusicPlayer();
 
       default:
     }

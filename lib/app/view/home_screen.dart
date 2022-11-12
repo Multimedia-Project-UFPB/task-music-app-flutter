@@ -21,7 +21,6 @@ import 'package:task_music/app/widgets/stopwatch.dart';
 import 'package:task_music/app/view_models/task_view.dart';
 
 class HomeScreen extends StatelessWidget {
-  static const String route = '/home-screen';
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
@@ -32,11 +31,9 @@ class HomeScreen extends StatelessWidget {
     final sizeWidth = MediaQuery.of(context).size.width;
     return Observer(
       builder: (_) => Scaffold(
-        // backgroundColor: Colors.amber,
         appBar: CustomAppBar(
           func: () => ZoomDrawer.of(context)!.toggle(),
         ),
-
         extendBodyBehindAppBar: true,
         body: Stack(
           fit: StackFit.expand,
