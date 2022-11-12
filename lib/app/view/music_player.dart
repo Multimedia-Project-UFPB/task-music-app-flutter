@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
+import 'package:task_music/app/model/song.dart';
 import 'package:task_music/app/utils/filters/background_filter_home.dart';
 import 'package:task_music/app/widgets/custom_app_bar.dart';
 
@@ -21,53 +22,75 @@ class _MusicPlayerState extends State<MusicPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          decoration: const BoxDecoration(
-              gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color.fromARGB(255, 87, 0, 19),
-              Color(0xFFE80234),
+    final size = MediaQuery.of(context).size;
+    return Container(
+      decoration: const BoxDecoration(
+          gradient: LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [
+          Color(0xFF570013),
+          Color(0xFFE80234),
+        ],
+      )),
+      child: Scaffold(
+        appBar: CustomAppBar(
+          func: () => ZoomDrawer.of(context)!.toggle(),
+        ),
+        backgroundColor: Colors.transparent,
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              _headerPageMusic(context),
+              _trendingMusic(context, Song.songs),
             ],
-          )),
-          child: Scaffold(
-            appBar: CustomAppBar(
-              func: () => ZoomDrawer.of(context)!.toggle(),
-            ),
-            backgroundColor: Colors.transparent,
-            body: SingleChildScrollView(
-              child: Column(
-                children: [
-                  _headerPageMusic(context),
-                ],
-              ),
-            ),
           ),
         ),
-        GestureDetector(
-          onTap: _expandedBox,
-          child: AnimatedContainer(
-            duration: Duration(milliseconds: 250),
-            width: !expandedBox ? 100 : MediaQuery.of(context).size.width,
-            height: !expandedBox ? 100 : MediaQuery.of(context).size.height,
-            color: Colors.purple,
-            child: Container(
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
-                  Image.network(
-                    'https://images.unsplash.com/photo-1586473219010-2ffc57b0d282?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dGFza3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60',
-                    fit: BoxFit.cover,
-                  ),
-                  const BackgroundFilterHome(),
-                ],
-              ),
+      ),
+    );
+  }
+
+  Padding _trendingMusic(BuildContext context, List<Song> songs) {
+    final size = MediaQuery.of(context).size;
+    return Padding(
+      padding: EdgeInsets.all(20),
+      child: Column(
+        children: [
+          _sectionSongsInHigh(context, 'Músicas em alta', 'Veja mais'),
+          const SizedBox(height: 20),
+          SizedBox(
+            height: size.height * 0.50,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: songs.length,
+              itemBuilder: (context, index) {
+                return SongCard(song: songs[index]);
+              },
             ),
-          ),
-        )
+          )
+        ],
+      ),
+    );
+  }
+
+  Row _sectionSongsInHigh(BuildContext context, String title, String action) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          title,
+          style: Theme.of(context)
+              .textTheme
+              .headline6!
+              .copyWith(color: Colors.white),
+        ),
+        Text(
+          action,
+          style: Theme.of(context)
+              .textTheme
+              .bodyLarge!
+              .copyWith(color: Colors.white),
+        ),
       ],
     );
   }
@@ -114,6 +137,82 @@ class _MusicPlayerState extends State<MusicPlayer> {
             ),
           )
         ],
+      ),
+    );
+  }
+}
+
+class SongCard extends StatelessWidget {
+  final Song song;
+  const SongCard({
+    required this.song,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    return InkWell(
+      onTap: () => Navigator.pushNamed(context, '/song', arguments: song),
+      child: Container(
+        margin: const EdgeInsets.only(right: 10),
+        child: Stack(
+          alignment: Alignment.bottomCenter,
+          children: [
+            Container(
+              width: size.width * 0.65,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(35),
+                image: DecorationImage(
+                  image: AssetImage(song.coverUrl),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            Positioned(
+              top: 300,
+              child: Container(
+                height: 60,
+                width: size.width * 0.45,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  color: Colors.white.withOpacity(0.8),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          song.title,
+                          style:
+                              Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                    color: const Color(0xFF570013),
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                        ),
+                        Text(
+                          song.description,
+                          style:
+                              Theme.of(context).textTheme.bodySmall!.copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                        ),
+                      ],
+                    ),
+                    const Icon(
+                      Icons.play_circle,
+                      color: const Color(0xFF570013),
+                    )
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
