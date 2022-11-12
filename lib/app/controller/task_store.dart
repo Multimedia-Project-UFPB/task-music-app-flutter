@@ -7,6 +7,8 @@ import '../model/task_model.dart';
 class TaskStore extends ChangeNotifier {
   List<TaskModel> taskList = [];
 
+  bool changeIcon = false;
+
   TextEditingController controllerTitle = TextEditingController();
   TextEditingController controllerDescription = TextEditingController();
 

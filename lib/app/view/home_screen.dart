@@ -31,11 +31,9 @@ class HomeScreen extends StatelessWidget {
     final sizeWidth = MediaQuery.of(context).size.width;
     return Observer(
       builder: (_) => Scaffold(
-        // backgroundColor: Colors.amber,
         appBar: CustomAppBar(
           func: () => ZoomDrawer.of(context)!.toggle(),
         ),
-
         extendBodyBehindAppBar: true,
         body: Stack(
           fit: StackFit.expand,
