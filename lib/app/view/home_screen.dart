@@ -6,15 +6,12 @@ import 'package:provider/provider.dart';
 // Controller
 import 'package:task_music/app/controller/pomodoro_store.dart';
 
-// Enum
-import 'package:task_music/app/utils/enum/range_type.dart';
-
 // Filter
 import 'package:task_music/app/utils/filters/background_filter_home.dart';
 
 // Widget
 import 'package:task_music/app/widgets/custom_app_bar.dart';
-import 'package:task_music/app/widgets/input_time.dart';
+import 'package:task_music/app/widgets/pomodoro_time.dart';
 import 'package:task_music/app/widgets/stopwatch.dart';
 
 // View Model
@@ -44,37 +41,7 @@ class HomeScreen extends StatelessWidget {
             ),
             const BackgroundFilterHome(),
             Stopwatch(sizeHeight: sizeHeight, sizeWidth: sizeWidth),
-            Positioned(
-              top: 350,
-              left: 20,
-              child: Row(
-                children: [
-                  InputTime(
-                    value: _store.workTime,
-                    title: "Trabalho",
-                    dec: _store.initiated && _store.rangeType == RangeType.job
-                        ? null
-                        : _store.decreaseWorkingTime,
-                    inc: _store.initiated && _store.rangeType == RangeType.job
-                        ? null
-                        : _store.increaseWorkingTime,
-                  ),
-                  SizedBox(
-                    width: sizeWidth / 6,
-                  ),
-                  InputTime(
-                    value: _store.restTime,
-                    title: "Descanso",
-                    dec: _store.initiated && _store.rangeType == RangeType.rest
-                        ? null
-                        : _store.decreaseRestTime,
-                    inc: _store.initiated && _store.rangeType == RangeType.rest
-                        ? null
-                        : _store.increaseRestTime,
-                  ),
-                ],
-              ),
-            ),
+            PomodoroTime(store: _store, sizeWidth: sizeWidth),
             TaskView(sizeHeight: sizeHeight, sizeWidth: sizeWidth),
           ],
         ),

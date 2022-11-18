@@ -7,6 +7,7 @@ import 'package:task_music/app/controller/task_store.dart';
 
 // View
 import 'package:task_music/app/view/home_drawer_menu.dart';
+import 'package:task_music/app/view/song.screen.dart';
 import 'package:task_music/app/view/splash_screen.dart';
 import 'package:task_music/app/view/welcome_screen.dart';
 
@@ -38,7 +39,8 @@ class AppWidget extends StatelessWidget {
         routes: {
           SplashScreen.route: (context) => const SplashScreen(),
           WelcomeScreen.route: (context) => const WelcomeScreen(),
-          HomeDrawerMenu.route: (context) => const HomeDrawerMenu()
+          HomeDrawerMenu.route: (context) => const HomeDrawerMenu(),
+          SongScreen.route: (context) => const SongScreen(),
         },
       ),
     );
