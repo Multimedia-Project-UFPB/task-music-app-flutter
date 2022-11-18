@@ -77,9 +77,19 @@ class _SongScreenState extends State<SongScreen> {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          Image.asset(
-            song.coverUrl,
-            fit: BoxFit.cover,
+          StreamBuilder<int?>(
+            stream: audioPlayer.currentIndexStream,
+            builder: (context, snapshot) {
+              final currentIndex = snapshot.data;
+              if (currentIndex != null) {
+                return Image.asset(
+                  Song.songs[currentIndex].coverUrl,
+                  fit: BoxFit.cover,
+                );
+              } else {
+                return const Text('');
+              }
+            },
           ),
           const BackgroundFilterSong(),
           MusicPlayer(
@@ -117,24 +127,44 @@ class MusicPlayer extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Center(
-            child: Text(
-              song.title,
-              style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
+          StreamBuilder<int?>(
+            stream: audioPlayer.currentIndexStream,
+            builder: (context, snapshot) {
+              final currentIndex = snapshot.data;
+              if (currentIndex != null) {
+                return Center(
+                  child: Text(
+                    Song.songs[currentIndex].title,
+                    style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
                   ),
-            ),
+                );
+              } else {
+                return const Text('');
+              }
+            },
           ),
           const SizedBox(height: 5),
-          Center(
-            child: Text(
-              song.description,
-              maxLines: 2,
-              style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                    color: Colors.white,
+          StreamBuilder<int?>(
+            stream: audioPlayer.currentIndexStream,
+            builder: (context, snapshot) {
+              final currentIndex = snapshot.data;
+              if (currentIndex != null) {
+                return Center(
+                  child: Text(
+                    Song.songs[currentIndex].description,
+                    maxLines: 2,
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          color: Colors.white,
+                        ),
                   ),
-            ),
+                );
+              } else {
+                return const Text('');
+              }
+            },
           ),
           const SizedBox(height: 25),
           StreamBuilder<SeekBarData>(
@@ -166,7 +196,7 @@ class PlayerButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         StreamBuilder<int?>(
           stream: audioPlayer.currentIndexStream,
@@ -177,61 +207,64 @@ class PlayerButtons extends StatelessWidget {
               icon: const Icon(
                 Icons.skip_previous_outlined,
                 color: Colors.white,
-                size: 35,
+                size: 45,
               ),
             );
           },
         ),
-        StreamBuilder<PlayerState>(
-          stream: audioPlayer.playerStateStream,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              final playerState = snapshot.data;
-              final processingState = playerState!.processingState;
+        Container(
+          margin: const EdgeInsets.only(left: 20, right: 5),
+          child: StreamBuilder<PlayerState>(
+            stream: audioPlayer.playerStateStream,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                final playerState = snapshot.data;
+                final processingState = playerState!.processingState;
 
-              if (processingState == ProcessingState.loading ||
-                  processingState == ProcessingState.buffering) {
-                return Container(
-                  width: 64,
-                  height: 64,
-                  margin: const EdgeInsets.all(10),
-                  child: const CircularProgressIndicator.adaptive(),
-                );
-              } else if (!audioPlayer.playing) {
-                return IconButton(
-                  onPressed: audioPlayer.play,
-                  iconSize: 75,
-                  icon: const Icon(
-                    Icons.play_circle,
-                    color: Colors.white,
-                  ),
-                );
-              } else if (processingState != ProcessingState.completed) {
-                return IconButton(
-                  onPressed: audioPlayer.pause,
-                  iconSize: 75,
-                  icon: const Icon(
-                    Icons.pause_circle,
-                    color: Colors.white,
-                  ),
-                );
+                if (processingState == ProcessingState.loading ||
+                    processingState == ProcessingState.buffering) {
+                  return Container(
+                    width: 64,
+                    height: 64,
+                    margin: const EdgeInsets.all(10),
+                    child: const CircularProgressIndicator.adaptive(),
+                  );
+                } else if (!audioPlayer.playing) {
+                  return IconButton(
+                    onPressed: audioPlayer.play,
+                    iconSize: 75,
+                    icon: const Icon(
+                      Icons.play_circle,
+                      color: Colors.white,
+                    ),
+                  );
+                } else if (processingState != ProcessingState.completed) {
+                  return IconButton(
+                    onPressed: audioPlayer.pause,
+                    iconSize: 75,
+                    icon: const Icon(
+                      Icons.pause_circle,
+                      color: Colors.white,
+                    ),
+                  );
+                } else {
+                  return IconButton(
+                    onPressed: () => audioPlayer.seek(
+                      Duration.zero,
+                      index: audioPlayer.effectiveIndices!.first,
+                    ),
+                    iconSize: 75,
+                    icon: const Icon(
+                      Icons.replay_circle_filled_outlined,
+                      color: Colors.white,
+                    ),
+                  );
+                }
               } else {
-                return IconButton(
-                  onPressed: () => audioPlayer.seek(
-                    Duration.zero,
-                    index: audioPlayer.effectiveIndices!.first,
-                  ),
-                  iconSize: 75,
-                  icon: const Icon(
-                    Icons.replay_circle_filled_outlined,
-                    color: Colors.white,
-                  ),
-                );
+                return const CircularProgressIndicator.adaptive();
               }
-            } else {
-              return const CircularProgressIndicator.adaptive();
-            }
-          },
+            },
+          ),
         ),
         StreamBuilder<int?>(
           stream: audioPlayer.currentIndexStream,
@@ -241,7 +274,7 @@ class PlayerButtons extends StatelessWidget {
               icon: const Icon(
                 Icons.skip_next_outlined,
                 color: Colors.white,
-                size: 35,
+                size: 45,
               ),
             );
           },
