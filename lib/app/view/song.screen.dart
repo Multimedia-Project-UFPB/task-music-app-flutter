@@ -109,17 +109,110 @@ class MusicPlayer extends StatelessWidget {
           ),
           const SizedBox(height: 30),
           StreamBuilder<SeekbarData>(
-              stream: _seekBarData,
-              builder: (context, snapshot) {
-                final positionData = snapshot.data;
-                return Seekbar(
-                  position: positionData?.position ?? Duration.zero,
-                  duration: positionData?.duration ?? Duration.zero,
-                  onChanged: audioPlayer.seek,
-                );
-              })
+            stream: _seekBarData,
+            builder: (context, snapshot) {
+              final positionData = snapshot.data;
+              return Seekbar(
+                position: positionData?.position ?? Duration.zero,
+                duration: positionData?.duration ?? Duration.zero,
+                onChanged: audioPlayer.seek,
+              );
+            },
+          ),
+          PlayerButtons(audioPlayer: audioPlayer)
         ],
       ),
+    );
+  }
+}
+
+class PlayerButtons extends StatelessWidget {
+  const PlayerButtons({
+    Key? key,
+    required this.audioPlayer,
+  }) : super(key: key);
+
+  final AudioPlayer audioPlayer;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        StreamBuilder<int?>(
+          stream: audioPlayer.currentIndexStream,
+          builder: (context, snapshot) {
+            return IconButton(
+              onPressed:
+                  audioPlayer.hasPrevious ? audioPlayer.seekToPrevious : null,
+              icon: const Icon(
+                Icons.skip_previous_outlined,
+                color: Colors.white,
+                size: 35,
+              ),
+            );
+          },
+        ),
+        StreamBuilder<PlayerState>(
+          stream: audioPlayer.playerStateStream,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              final playerState = snapshot.data;
+              final processingState = playerState!.processingState;
+              if (processingState == ProcessingState.loading ||
+                  processingState == ProcessingState.buffering) {
+                return Container(
+                  width: 64,
+                  height: 64,
+                  margin: const EdgeInsets.all(10),
+                  child: const CircularProgressIndicator.adaptive(),
+                );
+              } else if (!audioPlayer.playing) {
+                return IconButton(
+                  onPressed: audioPlayer.play,
+                  iconSize: 55,
+                  icon: const Icon(
+                    Icons.play_circle,
+                    color: Colors.white,
+                  ),
+                );
+              } else if (processingState != ProcessingState.completed) {
+                return IconButton(
+                  onPressed: audioPlayer.pause,
+                  iconSize: 55,
+                  icon: const Icon(
+                    Icons.pause_circle,
+                    color: Colors.white,
+                  ),
+                );
+              } else {
+                return IconButton(
+                  onPressed: () => audioPlayer.seek(Duration.zero,
+                      index: audioPlayer.effectiveIndices!.first),
+                  iconSize: 55,
+                  icon: const Icon(Icons.replay_circle_filled_outlined),
+                  color: Colors.white,
+                );
+              }
+            } else {
+              return const CircularProgressIndicator.adaptive();
+            }
+          },
+        ),
+        StreamBuilder<int?>(
+          stream: audioPlayer.currentIndexStream,
+          builder: (context, snapshot) {
+            return IconButton(
+              onPressed: audioPlayer.hasNext ? audioPlayer.seekToNext : null,
+              icon: const Icon(
+                Icons.skip_next_outlined,
+                color: Colors.white,
+                size: 35,
+              ),
+            );
+          },
+        ),
+      ],
     );
   }
 }
