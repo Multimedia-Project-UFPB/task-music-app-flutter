@@ -49,7 +49,7 @@ class _MusicPlayerScreenState extends State<MusicPlayerScreen> {
   Padding _trendingMusic(BuildContext context, List<Song> songs) {
     final size = MediaQuery.of(context).size;
     return Padding(
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       child: Column(
         children: [
           _sectionSongsInHigh(context, 'Músicas em alta', 'Veja mais'),

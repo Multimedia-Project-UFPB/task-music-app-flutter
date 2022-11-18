@@ -21,13 +21,42 @@ class SongScreen extends StatefulWidget {
 
 class _SongScreenState extends State<SongScreen> {
   final AudioPlayer audioPlayer = AudioPlayer();
+  // final Song song = Get.arguments ?? Song.songs.length;
 
-  Stream<SeekbarData> get _seekBarDataStream =>
-      rxdart.Rx.combineLatest2<Duration, Duration?, SeekbarData>(
+  play(BuildContext context) {
+    final _arguments = ModalRoute.of(context)!.settings.arguments as Song;
+    audioPlayer.setAudioSource(
+      ConcatenatingAudioSource(
+        children: [
+          AudioSource.uri(
+            Uri.parse('asset:///${_arguments.url}'),
+          ),
+          AudioSource.uri(
+            Uri.parse('asset:///${Song.songs[1].url}'),
+          ),
+          AudioSource.uri(
+            Uri.parse('asset:///${Song.songs[2].url}'),
+          ),
+          AudioSource.uri(
+            Uri.parse('asset:///${Song.songs[3].url}'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () => play(context));
+  }
+
+  Stream<SeekBarData> get _seekBarDataStream =>
+      rxdart.Rx.combineLatest2<Duration, Duration?, SeekBarData>(
         audioPlayer.positionStream,
         audioPlayer.durationStream,
         (Duration position, Duration? duration) =>
-            SeekbarData(position, duration ?? Duration.zero),
+            SeekBarData(position, duration ?? Duration.zero),
       );
 
   @override
@@ -65,13 +94,13 @@ class _SongScreenState extends State<SongScreen> {
 }
 
 class MusicPlayer extends StatelessWidget {
-  final Stream<SeekbarData> _seekBarData;
+  final Stream<SeekBarData> _seekBarData;
   final AudioPlayer audioPlayer;
   final Song song;
 
   const MusicPlayer({
     Key? key,
-    required Stream<SeekbarData> seekBarData,
+    required Stream<SeekBarData> seekBarData,
     required this.song,
     required this.audioPlayer,
   })  : _seekBarData = seekBarData,
@@ -108,11 +137,11 @@ class MusicPlayer extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 30),
-          StreamBuilder<SeekbarData>(
+          StreamBuilder<SeekBarData>(
             stream: _seekBarData,
             builder: (context, snapshot) {
               final positionData = snapshot.data;
-              return Seekbar(
+              return SeekBar(
                 position: positionData?.position ?? Duration.zero,
                 duration: positionData?.duration ?? Duration.zero,
                 onChanged: audioPlayer.seek,
@@ -159,6 +188,7 @@ class PlayerButtons extends StatelessWidget {
             if (snapshot.hasData) {
               final playerState = snapshot.data;
               final processingState = playerState!.processingState;
+
               if (processingState == ProcessingState.loading ||
                   processingState == ProcessingState.buffering) {
                 return Container(
@@ -170,7 +200,7 @@ class PlayerButtons extends StatelessWidget {
               } else if (!audioPlayer.playing) {
                 return IconButton(
                   onPressed: audioPlayer.play,
-                  iconSize: 55,
+                  iconSize: 75,
                   icon: const Icon(
                     Icons.play_circle,
                     color: Colors.white,
@@ -179,7 +209,7 @@ class PlayerButtons extends StatelessWidget {
               } else if (processingState != ProcessingState.completed) {
                 return IconButton(
                   onPressed: audioPlayer.pause,
-                  iconSize: 55,
+                  iconSize: 75,
                   icon: const Icon(
                     Icons.pause_circle,
                     color: Colors.white,
@@ -187,11 +217,15 @@ class PlayerButtons extends StatelessWidget {
                 );
               } else {
                 return IconButton(
-                  onPressed: () => audioPlayer.seek(Duration.zero,
-                      index: audioPlayer.effectiveIndices!.first),
-                  iconSize: 55,
-                  icon: const Icon(Icons.replay_circle_filled_outlined),
-                  color: Colors.white,
+                  onPressed: () => audioPlayer.seek(
+                    Duration.zero,
+                    index: audioPlayer.effectiveIndices!.first,
+                  ),
+                  iconSize: 75,
+                  icon: const Icon(
+                    Icons.replay_circle_filled_outlined,
+                    color: Colors.white,
+                  ),
                 );
               }
             } else {
