@@ -60,7 +60,7 @@ class _SeekbarState extends State<Seekbar> {
                 ),
                 activeTrackColor: Colors.white.withOpacity(0.2),
                 inactiveTrackColor: Colors.white,
-                thumbColor: Colors.white,
+                thumbColor: Colors.red,
                 overlayColor: Colors.white),
             child: Slider(
               min: 0.0,
