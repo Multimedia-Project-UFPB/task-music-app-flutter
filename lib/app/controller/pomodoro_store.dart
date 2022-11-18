@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:mobx/mobx.dart';
+
+// Enum
 import 'package:task_music/app/utils/enum/range_type.dart';
 
 part 'pomodoro_store.g.dart';

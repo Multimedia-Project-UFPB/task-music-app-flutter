@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:task_music/app/model/song.dart';
-import 'package:task_music/app/utils/filters/background_filter_song.dart';
-import 'package:task_music/app/widgets/skeekbar.dart';
 import 'package:rxdart/rxdart.dart' as rxdart;
+
+// Model
+import 'package:task_music/app/model/song.dart';
+
+// Filter
+import 'package:task_music/app/utils/filters/background_filter_song.dart';
+
+// Widget
+import 'package:task_music/app/widgets/skeekbar.dart';
 
 class SongScreen extends StatefulWidget {
   static const String route = '/song';
