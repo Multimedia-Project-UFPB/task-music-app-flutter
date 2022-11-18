@@ -3,7 +3,7 @@ import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:provider/provider.dart';
 import 'package:task_music/app/controller/task_store.dart';
 import 'package:task_music/app/view/home_screen.dart';
-import 'package:task_music/app/view/music_player.dart';
+import 'package:task_music/app/view/music_player_screen.dart';
 
 class MenuItem {
   final String title;
@@ -62,7 +62,7 @@ class _HomeDrawerMenuState extends State<HomeDrawerMenu> {
       case MenuItems.task:
         return const HomeScreen();
       case MenuItems.music:
-        return const MusicPlayer();
+        return const MusicPlayerScreen();
 
       default:
     }

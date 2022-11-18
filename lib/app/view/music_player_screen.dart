@@ -1,25 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
-import 'package:task_music/app/model/song.dart';
-import 'package:task_music/app/utils/filters/background_filter_home.dart';
-import 'package:task_music/app/widgets/custom_app_bar.dart';
 
-class MusicPlayer extends StatefulWidget {
-  const MusicPlayer({Key? key}) : super(key: key);
+// Model
+import 'package:task_music/app/model/song.dart';
+
+// Widget
+import 'package:task_music/app/widgets/custom_app_bar.dart';
+import 'package:task_music/app/widgets/song_card.dart';
+
+class MusicPlayerScreen extends StatefulWidget {
+  const MusicPlayerScreen({Key? key}) : super(key: key);
 
   @override
-  State<MusicPlayer> createState() => _MusicPlayerState();
+  State<MusicPlayerScreen> createState() => _MusicPlayerScreenState();
 }
 
-class _MusicPlayerState extends State<MusicPlayer> {
-  bool expandedBox = false;
-
-  _expandedBox() {
-    setState(() {
-      expandedBox = !expandedBox;
-    });
-  }
-
+class _MusicPlayerScreenState extends State<MusicPlayerScreen> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -137,82 +133,6 @@ class _MusicPlayerState extends State<MusicPlayer> {
             ),
           )
         ],
-      ),
-    );
-  }
-}
-
-class SongCard extends StatelessWidget {
-  final Song song;
-  const SongCard({
-    required this.song,
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    return InkWell(
-      onTap: () => Navigator.pushNamed(context, '/song', arguments: song),
-      child: Container(
-        margin: const EdgeInsets.only(right: 10),
-        child: Stack(
-          alignment: Alignment.bottomCenter,
-          children: [
-            Container(
-              width: size.width * 0.65,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(35),
-                image: DecorationImage(
-                  image: AssetImage(song.coverUrl),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-            Positioned(
-              top: 300,
-              child: Container(
-                height: 60,
-                width: size.width * 0.45,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  color: Colors.white.withOpacity(0.8),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          song.title,
-                          style:
-                              Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                    color: const Color(0xFF570013),
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                        ),
-                        Text(
-                          song.description,
-                          style:
-                              Theme.of(context).textTheme.bodySmall!.copyWith(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                        ),
-                      ],
-                    ),
-                    const Icon(
-                      Icons.play_circle,
-                      color: const Color(0xFF570013),
-                    )
-                  ],
-                ),
-              ),
-            )
-          ],
-        ),
       ),
     );
   }

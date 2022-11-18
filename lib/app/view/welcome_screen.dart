@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:task_music/app/view/home_drawer_menu.dart';
 
 // Utils
-import 'package:task_music/app/utils/filters/backgroud_filter_welcome.dart';
+import 'package:task_music/app/utils/filters/background_filter_welcome.dart';
 
 class WelcomeScreen extends StatelessWidget {
   static const String route = '/welcome-screen';
